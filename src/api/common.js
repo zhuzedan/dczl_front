@@ -72,7 +72,13 @@ export default {
       resolve(res);
     });
   },
-
+  getStorePage: (data) => { // 门店列表
+    return request({
+      url: '/getStorePage',
+      method: 'post',
+      data
+    });
+  },
   getOrdersByUserId: (data) => { // 订单列表
     return request({
       url: '/getOrdersByUserId',

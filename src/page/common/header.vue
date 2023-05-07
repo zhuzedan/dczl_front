@@ -2,10 +2,10 @@
   <el-header>
     <div class="title">电动车租赁</div>
     <div class="link">
-      <el-link class="active" :href="user.userType===1?'../#/user/home':'../#/manager/user'">首页</el-link>
-      <el-link>营业门店</el-link>
-      <el-link>用户体验</el-link>
-      <el-link>关于我们</el-link>
+      <el-link :href="user.userType===1?'../#/user/home':'../#/manager/user'">首页</el-link>
+      <el-link href="../#/user/store">营业门店</el-link>
+      <el-link href="../#/user/experience">用户体验</el-link>
+      <el-link href="../#/user/about">关于我们</el-link>
     </div>
     <div class="info">
       <el-link class="active"  @click="user?'':$router.push('../#/login')">

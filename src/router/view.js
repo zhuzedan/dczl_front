@@ -23,6 +23,21 @@ export default [
         path: 'personal',
         name: 'personal',
         component: () => import ('@/views/user/personal.vue')
+      },
+      {
+        path: 'store',
+        name: 'store',
+        component: () => import ('@/views/user/store.vue')
+      },
+      {
+        path: 'experience',
+        name: 'experience',
+        component: () => import ('@/views/user/experience.vue')
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: () => import ('@/views/user/about.vue')
       }
     ]
   },

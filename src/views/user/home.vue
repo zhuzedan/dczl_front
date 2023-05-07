@@ -50,12 +50,12 @@
         </el-row>
       </el-row>
     </el-row>
-    <el-row class="footer">
+    <!-- <el-row class="footer">
       <el-col v-for="(v,i) in explains" :key="i" :span="4">
         <p>{{v.title}}</p>
-        <!-- <div v-for="(a,j) in v.describe" :key="j">{{a}}</div> -->
+        <div v-for="(a,j) in v.describe" :key="j">{{a}}</div>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 <script>
