@@ -3,8 +3,8 @@
     <el-row class="main">
       <div class="info">
         <el-image :src="formInfo.url" fit="cover"/>
-        <p>{{formInfo.account}}</p>
-        <p>{{formInfo.phone}}</p>
+        <p>{{user.userName}}</p>
+        <p>{{user.userTele}}</p>
       </div>
       <div class="indent">
         <h2>订单信息</h2>
@@ -41,6 +41,17 @@
             </el-col>
           </el-row>
         </div>
+        <el-row class="pagination">
+      <el-pagination
+        @current-change="currentChange"
+        @size-change="sizeChange"
+        :current-page="pageInfo.pageNo"
+        :page-size="pageInfo.pageSize"
+        :total="pageInfo.total"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next, jumper">
+      </el-pagination>
+    </el-row>
       </div>
     </el-row>
     <el-dialog
@@ -122,6 +133,14 @@ export default {
     this.queryPage();
   },
   methods: {
+    currentChange(val) {
+      this.pageInfo.pageNo = val;
+      this.queryPage();
+    },
+    sizeChange(val) {
+      this.pageInfo.pageSize = val;
+      this.queryPage();
+    },
     queryPage() {
       this.pageInfo.userId = this.user.id;
       commonApi.getOrdersByUserId(this.pageInfo).then((res) => {

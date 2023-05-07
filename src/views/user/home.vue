@@ -10,12 +10,12 @@
         <el-form ref="form" :model="form" :rules="rules" :inline="true" label-position="top" label-width="80px">
           <el-form-item prop="takeShop" label="取车">
             <el-select v-model="form.takeShop" placeholder="请选择门店">
-              <el-option v-for="(item,index) in optsShop" :key="index" :label="item.label" :value="item.label"/>
+              <el-option v-for="(item,index) in optsShop" :key="index" :label="item.storeName" :value="item.storeName"/>
             </el-select>
           </el-form-item>
           <el-form-item prop="giveShop" label="还车">
             <el-select v-model="form.giveShop" placeholder="请选择门店">
-              <el-option v-for="(item,index) in optsShop" :key="index" :label="item.label" :value="item.label"/>
+              <el-option v-for="(item,index) in optsShop" :key="index" :label="item.storeName" :value="item.storeName"/>
             </el-select>
           </el-form-item>
           <el-form-item prop="takeDate">
@@ -59,6 +59,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import mixin from '@/mixins/common.js'
+import commonApi from '@/api/common.js';
 export default {
   name: 'HelloWorld',
   data () {
@@ -98,24 +101,6 @@ export default {
           { required: true, message: '请选择时间' },
         ],
       },
-      optsPlace: [
-        {
-          label: '北京',
-          value: '北京',
-        },
-        {
-          label: '上海',
-          value: '上海',
-        },
-        {
-          label: '广州',
-          value: '广州',
-        },
-        {
-          label: '深圳',
-          value: '深圳',
-        }
-      ],
       optsShop: [
         {
           label: '万达门店',
@@ -174,6 +159,16 @@ export default {
         },
       ],
     }
+  },
+  created() {
+    commonApi.getAllStore(this.pageInfo).then((res) => {
+      console.log(res)
+        if (res.code === 200) {
+          this.optsShop = res.data;
+        } else {
+          this.$message.warning(res.message);
+        }
+      });
   },
   mounted() {
 

@@ -79,6 +79,12 @@ export default {
       data
     });
   },
+  getAllStore: () => {
+    return request({
+      url: '/getAllStore',
+      method: 'post',
+    });
+  },
   getOrdersByUserId: (data) => { // 订单列表
     return request({
       url: '/getOrdersByUserId',

@@ -4,22 +4,22 @@
       <el-descriptions title="您已预定的信息如下：" :column="2" :colon="false">
         <el-descriptions-item label="取车时间：">{{params.takeDate +' '+params.takeTime}}</el-descriptions-item>
         <el-descriptions-item label="还车时间：">{{params.giveDate +' '+params.giveTime}}</el-descriptions-item>
-        <el-descriptions-item label="取车地点：">{{params.takePlace}}</el-descriptions-item>
-        <el-descriptions-item label="还车地点：">{{params.givePlace}}</el-descriptions-item>
         <el-descriptions-item label="取车门店：">{{params.takeShop}}</el-descriptions-item>
         <el-descriptions-item label="还车门店：">{{params.giveShop}}</el-descriptions-item>
       </el-descriptions>
       <span class="txt-F12">友情提示：请合理安排你的用车时间</span>
     </el-card>
-    <el-card class="filter">
-      <el-descriptions :column="1" :colon="false">
-        <el-descriptions-item label="价格：">
-          <el-checkbox-group v-model="form.range">
-            <el-checkbox  v-for="(v,i) in priceOpts" :key="i" :label="v.value">{{v.label}}</el-checkbox>
-          </el-checkbox-group>
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-button type="primary" @click="queryPage">筛选</el-button>
+    <el-card >
+      <el-col :span="12">
+          <el-input v-model="pageInfo.lowPrice" placeholder="最小价格区间"></el-input>
+      </el-col>
+      <el-col :span="12">
+        <el-input v-model="pageInfo.highPrice" placeholder="最大价格区间"></el-input>
+      </el-col>
+      <el-col :span="12" style="margin-top: 20px;margin-bottom: 20px;">
+        <el-button type="primary" @click="queryPage">查询</el-button>
+        <el-button type="primary" @click="clearPage">重置</el-button>
+      </el-col>
     </el-card>
     <el-row class="list">
       <div class="item" v-for="(item,index) in list" :key="index">
@@ -82,7 +82,9 @@ export default {
       pageInfo: {
         pageNo: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        lowPrice:'',
+        highPrice:''
       },
       list: []
     }
@@ -91,11 +93,16 @@ export default {
     this.queryPage();
   },
   methods: {
+    clearPage() {
+      this.pageInfo.lowPrice= '',
+      this.pageInfo.highPrice='',
+      this.queryPage()
+    },
     queryPage() {
       commonApi.getBikes(this.pageInfo).then((res) => {
         if (res.code === 200) {
-          this.list = res.data.list;
-          this.pageInfo.total = res.data.total;
+          this.list = res.data.data;
+          this.pageInfo.total = res.data.totalCount;
         } else {
           this.$message.warning(res.message);
         }

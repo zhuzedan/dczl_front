@@ -12,8 +12,6 @@
         <el-descriptions title="订单信息：" :column="2" :colon="false">
           <el-descriptions-item label="取车时间：">{{params.takeDate +' '+params.takeTime}}</el-descriptions-item>
           <el-descriptions-item label="还车时间：">{{params.giveDate +' '+params.giveTime}}</el-descriptions-item>
-          <el-descriptions-item label="取车地点：">{{params.takePlace}}</el-descriptions-item>
-          <el-descriptions-item label="还车地点：">{{params.givePlace}}</el-descriptions-item>
           <el-descriptions-item label="取车门店：">{{params.takeShop}}</el-descriptions-item>
           <el-descriptions-item label="还车门店：">{{params.giveShop}}</el-descriptions-item>
         </el-descriptions>
@@ -121,8 +119,8 @@ export default {
         bikeId: this.params.id,
         mileage: 100,
         orderCost: this.params.bikeCost,
-        startLocation: this.params.takePlace + '-' + this.params.takeShop,
-        endLocation: this.params.givePlace + '-' + this.params.giveShop,
+        startLocation:  this.params.takeShop,
+        endLocation:  this.params.giveShop,
         startTime: this.params.takeDate + ' ' + this.params.takeTime,
         endTime: this.params.giveDate + ' ' + this.params.giveTime,
       }
