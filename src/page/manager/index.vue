@@ -2,12 +2,15 @@
   <div class="manager-container">
     <!-- <Header/> -->
     <el-container>
-      <el-aside>
+      <el-aside >
         <Sidebar/>
       </el-aside>
-      <el-main>
-        <router-view/>
-      </el-main>
+      <el-container>
+        <!-- <el-header>Header</el-header> -->
+        <el-main style="height: 100vh;">
+          <router-view/>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
@@ -31,13 +34,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 .manager-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  .el-container{
-    height: calc(100vh - 65px);
+  .el-header {
+  padding: 0;
+  box-shadow: rgb(144, 147, 153) 0px -1px 3px 0px;
+}
     .el-aside{
       background: #FAFAFA;
       width: 240px!important;
     }
-  }
+    .el-aside::-webkit-scrollbar {
+     display: none;
+}
+
 }
 </style>

@@ -12,7 +12,7 @@ const user = {
         "name": "user",
         "meta": {
           "title": "用户管理",
-          "icon": "el-icon-menu"
+          "icon": "el-icon-message-solid"
         },
         "children": []
       },
@@ -21,8 +21,8 @@ const user = {
         "component": "manager/vehicle",
         "name": "vehicle",
         "meta": {
-          "title": "电车管理",
-          "icon": "el-icon-menu"
+          "title": "车型管理",
+          "icon": "el-icon-s-flag"
         },
         "children": []
       },
@@ -42,7 +42,7 @@ const user = {
         "name": "appraise",
         "meta": {
           "title": "评价管理",
-          "icon": "el-icon-menu"
+          "icon": "el-icon-share"
         },
         "children": []
       },

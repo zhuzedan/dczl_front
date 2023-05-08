@@ -1,6 +1,6 @@
 <template>
   <div class="user-container">
-    <h1>电车管理</h1>
+    <h1>车型管理</h1>
     <el-table :data="list">
       <el-table-column prop="bikeUrl" label="电动车" width="300">
         <template #default="{row}">
@@ -114,8 +114,8 @@ export default {
     queryPage() {
       commonApi.getBikes(this.pageInfo).then((res) => {
         if (res.code === 200) {
-          this.list = res.data.list;
-          this.pageInfo.total = res.data.total;
+          this.list = res.data.data;
+          this.pageInfo.total = res.data.totalCount;
         } else {
           this.$message.warning(res.message);
         }
