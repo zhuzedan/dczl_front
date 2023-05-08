@@ -32,7 +32,12 @@ export default {
     //   resolve(res);
     // });
   },
-
+  getAppraiseList:(data) => {
+    return request({
+      url: '/getAppraiseList?userId='+data,
+      method: 'get',
+    });
+  },
   getBikes: (data) => { // 电车列表
     return request({
       url: '/getBikes',
