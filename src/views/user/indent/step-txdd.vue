@@ -106,6 +106,10 @@ export default {
       }
     }
   },
+  created() {
+    const randomStr = Math.random().toString(36).substring(2);
+    console.log(randomStr);
+  },
   mounted() {
 
   },
@@ -114,6 +118,9 @@ export default {
       this.$emit('update:step', 1);
     },
     submit() {
+      commonApi.getPayRequest(Math.random().toString(36).substr(2),Math.random().toString(36).substr(2),this.params.bikeCost).then((res) => {
+        window.open('http://localhost:1919/dczlxt/pay?&subject='+Math.random().toString(36).substr(2)+'&traceNo='+Math.random().toString(36).substr(2)+'&totalAmount='+this.params.bikeCost)
+      })
       const params = {
         userId: this.user.id,
         bikeId: this.params.id,

@@ -5,6 +5,7 @@
         <el-image :src="formInfo.url" fit="cover"/>
         <p>{{user.userName}}</p>
         <p>{{user.userTele}}</p>
+        <el-button type="primary" @click="edit(user)">编辑信息</el-button>
       </div>
       <div class="indent">
         <h2>订单信息</h2>
@@ -18,7 +19,7 @@
               <p class="txt-606">价格：{{item.orderCost}} 元</p>
             </el-col>
             <el-col :span="6">
-              <p class="txt-606">租期：{{item.tenancy||'30天'}}</p>
+              <p class="txt-606">租期：{{item.rentalTime}}天</p>
               <p class="txt-606">
                 取车地点：{{item.startLocation}}
               </p>
@@ -76,6 +77,23 @@
         <el-button type="primary" @click="onSubmit">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      title="编辑"
+      width="500px"
+      :visible.sync="visible">
+      <el-form ref="form" :model="user" label-width="100px">
+        <el-form-item label="昵称：">
+          <el-input v-model="user.userName" placeholder="请输入"/>
+        </el-form-item>
+        <el-form-item label="手机号：">
+          <el-input v-model="user.userTele" placeholder="请输入"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="onSubmitUser">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -89,33 +107,13 @@ export default {
   },
   data () {
     return {
+      visible: false,
+      
       formInfo: {
         url: require('@/assets/images/head.png'),
-        account: 'admin',
-        password: '* * * * * * * *',
-        phone: '168****8888',
+        account: 'admin'
       },
       list: [
-        // {
-        //   bikeUrl: 'https://img.zcool.cn/community/0123aa57ac5a9f0000018c1b20920e.jpg@1280w_1l_2o_100sh.jpg',
-        //   bikeName: '英格威',
-        //   bikeStatus: '1',
-        //   bikeInsure: '40',
-        //   bikeCost: '120',
-
-        //   tenancy: '2.0天',
-        //   kilometers: '无限制',
-        // },
-        // {
-        //   bikeUrl: 'https://img.zcool.cn/community/0123aa57ac5a9f0000018c1b20920e.jpg@1280w_1l_2o_100sh.jpg',
-        //   bikeName: '英格威',
-        //   bikeStatus: '1',
-        //   bikeInsure: '40',
-        //   bikeCost: '120',
-
-        //   tenancy: '2.0天',
-        //   kilometers: '无限制',
-        // },
       ],
       visible: false,
       formAppraise: {
@@ -126,13 +124,32 @@ export default {
         userId: '',
         pageNo: 1,
         pageSize: 10,
-      }
+      },
+      form:[]
     }
   },
   mounted() {
     this.queryPage();
   },
+  created() {
+    // console.log(this.user)
+  },
   methods: {
+    edit(user) {
+      this.visible = true;
+      this.form = user;
+    },
+    onSubmitUser() {
+      commonApi.updateUser(this.user).then((res) => {
+        if (res.code === 200) {
+          this.visible = false;
+          this.$message.success('修改成功');
+          // this.queryPage();
+        } else {
+          this.$message.warning(res.message);
+        }
+      });
+    },
     currentChange(val) {
       this.pageInfo.pageNo = val;
       this.queryPage();
@@ -150,6 +167,13 @@ export default {
         } else {
           this.$message.warning(res.message);
         }
+        // console.log(this.list);
+        var day1 = new Date(this.list.startTime);
+        var day2 = new Date(this.list.endTime);
+        //console.log("day1:" + day1);
+        //console.log("day2:" + day2);
+        var differDay = Math.abs(day1-day2)/1000/60/60/24;
+        console.log(differDay);
       });
     },
     onAppraise(item) {

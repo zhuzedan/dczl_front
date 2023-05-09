@@ -2,7 +2,7 @@
   <div class="personal-container">
     <el-row class="main">
       <div class="indent">
-        <h2>订单信息</h2>
+        <h2>用户体验</h2>
         <div class="list">
           <el-row class="item" v-for="(item,index) in list" :key="index" :gutter="50" justify="space-between">
             <el-col :span="6">
@@ -10,17 +10,7 @@
             </el-col>
             <el-col :span="6">
               <p class="txt-FF8">{{item.bikeName}}</p>
-              <!-- <p class="txt-606">价格：{{item.orderCost}} 元</p> -->
             </el-col>
-            <!-- <el-col :span="6"> -->
-              <!-- <p class="txt-606">租期：{{item.tenancy||'30天'}}</p> -->
-              <!-- <p class="txt-606"> -->
-                <!-- 取车地点：{{item.startLocation}} -->
-              <!-- </p> -->
-              <!-- <p class="txt-606">
-                还车地点：{{item.endLocation}}
-              </p> -->
-            <!-- </el-col> -->
             <el-col :span="6" v-if="item.appraiseStar&&item.appraiseDescription">
               <el-rate v-if="item.appraiseStar"
                 v-model="item.appraiseStar" 

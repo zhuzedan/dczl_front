@@ -32,6 +32,12 @@ export default {
     //   resolve(res);
     // });
   },
+  getPayRequest:(subject,traceNo,price) => {
+    return request({
+      url: '/pay?&subject='+subject+'&traceNo='+traceNo+'&totalAmount='+price,
+      method: 'get',
+    });
+  },
   getAppraiseList:(data) => {
     return request({
       url: '/getAppraiseList?userId='+data,
