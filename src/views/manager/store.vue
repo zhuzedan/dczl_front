@@ -1,33 +1,20 @@
 <template>
   <div class="user-container">
-    <h1>用户管理</h1>
+    <h1>门店管理</h1>
     <el-table :data="list">
-      <el-table-column prop="userName" label="账号" width="300">
-        <template #default="{row}">
-          <el-image :src="require('@/assets/images/head.png')" fit="cover"/>
-          <span class="txt171">{{row.userName}}</span>
-        </template>
+      <el-table-column prop="storeName" label="门店名称" width="300">
       </el-table-column>
-      <el-table-column prop="userName" label="用户昵称" width="260"/>
-      <el-table-column prop="userType" label="用户角色" width="260">
-        <template #default="{row}">
-         {{ row.userType == 2 ? '管理员':'普通用户' }}
-        </template>
+      <el-table-column prop="contactName" label="联系人" />
+      <el-table-column prop="contactPhone" label="描述">  
       </el-table-column>
-      <el-table-column prop="userTele" label="手机号"/>
-      <el-table-column prop="userStatus" label="信誉度">
-        <template #default="{row}">
-          {{crediteEnume[row.userStatus]}}
-        </template>
+      <el-table-column prop="createTime" label="创建时间" width="260">
       </el-table-column>
-      <el-table-column label="操作" width="150">
-        <template #default="{row}">
+      <!-- <el-table-column label="操作" width="150" prop="id">
           <el-link type="primary" @click="edit(row)">编辑</el-link>
-          <el-popconfirm title="确定删除当前内容吗？" @confirm="del(row)">
+          <el-popconfirm title="确定删除当前内容吗？" @confirm="del(id)">
             <el-link slot="reference" type="primary">删除</el-link>
           </el-popconfirm>
-        </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <el-pagination
       @current-change="currentChange"
@@ -43,15 +30,15 @@
       width="500px"
       :visible.sync="visible">
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="昵称：">
-          <el-input v-model="form.userName" placeholder="请输入"/>
+        <el-form-item label="名称：">
+          <el-input v-model="form.bikeName" placeholder="请输入"/>
         </el-form-item>
-        <el-form-item label="手机号：">
-          <el-input v-model="form.userTele" placeholder="请输入"/>
+        <el-form-item label="价格：">
+          <el-input v-model="form.bikeCost" placeholder="请输入"/>
         </el-form-item>
-        <el-form-item label="信誉度：">
-          <el-select v-model="form.userStatus" placeholder="请选择">
-            <el-option v-for="(item,index) in crediteOpts" :key="index" :label="item.label" :value="item.value"/>
+        <el-form-item label="状态：">
+          <el-select v-model="form.bikeStatus" placeholder="请选择">
+            <el-option v-for="(item,index) in vehicleOpts" :key="index" :label="item.label" :value="item.value"/>
           </el-select>
         </el-form-item>
       </el-form>
@@ -74,34 +61,36 @@ export default {
       },
       visible: false,
       form: {
-        userName: '',
-        userTele: '',
-        userStatus: 0,
+        bikeName: '',
+        bikeCost: '',
+        bikeStatus: 1,
       },
-      crediteEnume: [
-        '信用极佳',
-        '信用良好',
-        '信用较差',
-        '无信用'
+      vehicleEnume: [
+        '',
+        '正常',
+        '易损',
+        '维修',
+        '报废'
       ],
-      crediteOpts: [
+      vehicleOpts: [
         {
-          label: '信用极佳',
-          value: 0
-        },
-        {
-          label: '信用良好',
+          label: '正常',
           value: 1
         },
         {
-          label: '信用较差',
+          label: '易损',
           value: 2
         },
         {
-          label: '无信用',
+          label: '维修',
           value: 3
+        },
+        {
+          label: '报废',
+          value: 4
         }
       ]
+      
     }
   },
   mounted() {
@@ -109,10 +98,10 @@ export default {
   },
   methods: {
     queryPage() {
-      commonApi.getUsers(this.pageInfo).then((res) => {
+      commonApi.getStorePage(this.pageInfo).then((res) => {
         if (res.code === 200) {
-          this.list = res.data.list;
-          this.pageInfo.total = res.data.total;
+          this.list = res.data.data;
+          this.pageInfo.total = res.data.totalCount;
         } else {
           this.$message.warning(res.message);
         }
@@ -131,7 +120,7 @@ export default {
       this.form = row;
     },
     del(row) {
-      commonApi.deleteUser(row).then((res) => {
+      commonApi.deleteStore(row).then((res) => {
         if (res.code === 200) {
           this.$message.success('删除成功');
           this.queryPage();
@@ -141,7 +130,7 @@ export default {
       });
     },
     onSubmit() {
-      commonApi.updateUser(this.form).then((res) => {
+      commonApi.updateBike(this.form).then((res) => {
         if (res.code === 200) {
           this.visible = false;
           this.$message.success('修改成功');
@@ -172,9 +161,8 @@ export default {
     }
     .el-image{
       vertical-align: middle;
-      border-radius: 100px;
-      width: 60px;
-      height: 60px;
+      width: 180px;
+      height: 100px;
       box-shadow: 0px 2px 2px 2px #d8e2f9a1;
       margin-right: 10px;
     }

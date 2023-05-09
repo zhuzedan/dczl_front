@@ -38,6 +38,21 @@ export default {
       method: 'get',
     });
   },
+  getStorePage:(data) => {
+    return request({
+      url: '/getStorePage',
+      method: 'post',
+      data
+    });
+  },
+  deleteStore:(data) => {
+    return request(
+      {
+        url: '/deleteStore?id='+data,
+        method: 'delete',
+      }
+    )
+  },
   getBikes: (data) => { // 电车列表
     return request({
       url: '/getBikes',

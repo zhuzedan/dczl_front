@@ -27,6 +27,16 @@ const user = {
         "children": []
       },
       {
+        "path": "/manager/store",
+        "component": "manager/store",
+        "name": "store",
+        "meta": {
+          "title": "门店管理",
+          "icon": "el-icon-s-management"
+        },
+        "children": []
+      },
+      {
         "path": "/manager/indent",
         "component": "manager/indent",
         "name": "indent",

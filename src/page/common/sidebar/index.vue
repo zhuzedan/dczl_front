@@ -8,6 +8,7 @@
         </a>
           <!-- <img src="@/assets/logo.png" alt="" /> -->
         <SidebarItem v-for="route in routerManager" :key="route.path" :item="route" :base-path="route.path"/>
+        <div style="color: #fff;position: absolute;bottom: 0;" @click="handleLogout">退出登录</div>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -35,7 +36,20 @@ export default {
 
   },
   methods:{
-
+    handleLogout () {
+      this.$confirm('确定要退出吗','退出提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+      .then(() => {
+        this.$message.success('成功退出')
+        this.$router.push('/login')
+      })
+      .catch(() => {
+        this.$message.info('取消')
+      })
+    }
   }
 }
 </script>

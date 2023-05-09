@@ -68,6 +68,11 @@ export default [
         path: 'appraise',
         name: 'appraise',
         component: () => import ('@/views/manager/appraise')
+      },
+      {
+        path: 'store',
+        name: 'store',
+        component: () => import ('@/views/manager/store')
       }
     ]
   }
