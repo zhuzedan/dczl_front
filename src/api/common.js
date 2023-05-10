@@ -51,6 +51,13 @@ export default {
       data
     });
   },
+  updateStore:(data) => {
+    return request({
+      url: '/updateStore',
+      method: 'post',
+      data
+    });
+  },
   deleteStore:(data) => {
     return request(
       {

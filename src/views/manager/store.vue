@@ -2,19 +2,22 @@
   <div class="user-container">
     <h1>门店管理</h1>
     <el-table :data="list">
-      <el-table-column prop="storeName" label="门店名称" width="300">
+      <el-table-column prop="storeName" label="门店名称" width="200">
       </el-table-column>
       <el-table-column prop="contactName" label="联系人" />
-      <el-table-column prop="contactPhone" label="描述">  
+      <el-table-column prop="contactPhone" label="联系人电话" />
+      <el-table-column prop="description" label="描述">  
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="260">
       </el-table-column>
-      <!-- <el-table-column label="操作" width="150" prop="id">
+      <el-table-column label="操作" width="150">
+        <template #default="{row}">
           <el-link type="primary" @click="edit(row)">编辑</el-link>
-          <el-popconfirm title="确定删除当前内容吗？" @confirm="del(id)">
+          <el-popconfirm title="确定删除当前内容吗？" @confirm="del(row)">
             <el-link slot="reference" type="primary">删除</el-link>
           </el-popconfirm>
-      </el-table-column> -->
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @current-change="currentChange"
@@ -31,15 +34,17 @@
       :visible.sync="visible">
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="名称：">
-          <el-input v-model="form.bikeName" placeholder="请输入"/>
+          <el-input v-model="form.storeName" placeholder="请输入"/>
         </el-form-item>
-        <el-form-item label="价格：">
-          <el-input v-model="form.bikeCost" placeholder="请输入"/>
+        <el-form-item label="描述：">
+          <el-input v-model="form.description" placeholder="请输入"/>
         </el-form-item>
-        <el-form-item label="状态：">
-          <el-select v-model="form.bikeStatus" placeholder="请选择">
-            <el-option v-for="(item,index) in vehicleOpts" :key="index" :label="item.label" :value="item.value"/>
-          </el-select>
+        <el-form-item label="联系人：">
+          <el-input v-model="form.contactName" placeholder="请输入"/>
+        </el-form-item>
+        <el-form-item label="联系人电话：">
+          <el-input v-model="form.contactPhone" placeholder="请选择">
+          </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -61,9 +66,7 @@ export default {
       },
       visible: false,
       form: {
-        bikeName: '',
-        bikeCost: '',
-        bikeStatus: 1,
+        
       },
       vehicleEnume: [
         '',
@@ -120,7 +123,7 @@ export default {
       this.form = row;
     },
     del(row) {
-      commonApi.deleteStore(row).then((res) => {
+      commonApi.deleteStore(row.id).then((res) => {
         if (res.code === 200) {
           this.$message.success('删除成功');
           this.queryPage();
@@ -130,7 +133,7 @@ export default {
       });
     },
     onSubmit() {
-      commonApi.updateBike(this.form).then((res) => {
+      commonApi.updateStore(this.form).then((res) => {
         if (res.code === 200) {
           this.visible = false;
           this.$message.success('修改成功');
