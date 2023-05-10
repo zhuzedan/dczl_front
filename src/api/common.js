@@ -58,6 +58,13 @@ export default {
       data
     });
   },
+  insertStore:(data) => {
+    return request({
+      url: '/insertStore',
+      method: 'post',
+      data
+    });
+  },
   deleteStore:(data) => {
     return request(
       {

@@ -1,6 +1,7 @@
 <template>
   <div class="user-container">
     <h1>门店管理</h1>
+    <el-button type="primary" @click="insert()" style="margin-bottom: 20px;">新建门店</el-button>
     <el-table :data="list">
       <el-table-column prop="storeName" label="门店名称" width="200">
       </el-table-column>
@@ -29,7 +30,31 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog
-      title="编辑"
+      title="新建门店"
+      width="500px"
+      :visible.sync="insertVisible">
+      <el-form ref="insertForm" :model="insertForm" label-width="100px">
+        <el-form-item label="名称：">
+          <el-input v-model="insertForm.storeName" placeholder="请输入"/>
+        </el-form-item>
+        <el-form-item label="描述：">
+          <el-input v-model="insertForm.description" placeholder="请输入"/>
+        </el-form-item>
+        <el-form-item label="联系人：">
+          <el-input v-model="insertForm.contactName" placeholder="请输入"/>
+        </el-form-item>
+        <el-form-item label="联系人电话：">
+          <el-input v-model="insertForm.contactPhone" placeholder="请选择">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="onInsertSubmit">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="编辑门店"
       width="500px"
       :visible.sync="visible">
       <el-form ref="form" :model="form" label-width="100px">
@@ -65,9 +90,11 @@ export default {
         pageSize: 10,
       },
       visible: false,
+      insertVisible: false,
       form: {
         
       },
+      insertForm: {},
       vehicleEnume: [
         '',
         '正常',
@@ -122,6 +149,9 @@ export default {
       this.visible = true;
       this.form = row;
     },
+    insert() {
+      this.insertVisible = true;
+    },
     del(row) {
       commonApi.deleteStore(row.id).then((res) => {
         if (res.code === 200) {
@@ -132,8 +162,19 @@ export default {
         }
       });
     },
+    onInsertSubmit() {
+      commonApi.insertStore(this.insertForm).then((res) => {
+        if (res.code === 200) {
+          this.insertVisible = false;
+          this.$message.success('新增成功');
+          this.queryPage();
+        } else {
+          this.$message.warning(res.message);
+        }
+      });
+    },
     onSubmit() {
-      commonApi.updateStore(this.form).then((res) => {
+      commonApi.updateStore(this.insertForm).then((res) => {
         if (res.code === 200) {
           this.visible = false;
           this.$message.success('修改成功');

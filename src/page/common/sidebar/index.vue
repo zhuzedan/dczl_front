@@ -4,9 +4,8 @@
       <el-menu background-color="#0c1120"
         text-color="#fff">
         <a class="logo">
-          <h1 v-if="!isCollapse">电车租赁后台管理系统</h1>
+          <h1>电车租赁后台管理系统</h1>
         </a>
-          <!-- <img src="@/assets/logo.png" alt="" /> -->
         <SidebarItem v-for="route in routerManager" :key="route.path" :item="route" :base-path="route.path"/>
         <div style="color: #fff;position: absolute;bottom: 0;" @click="handleLogout">退出登录</div>
       </el-menu>
