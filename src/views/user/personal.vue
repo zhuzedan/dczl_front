@@ -80,7 +80,7 @@
     <el-dialog
       title="编辑"
       width="500px"
-      :visible.sync="visible">
+      :visible.sync="visiblePersonal">
       <el-form ref="form" :model="user" label-width="100px">
         <el-form-item label="昵称：">
           <el-input v-model="user.userName" placeholder="请输入"/>
@@ -90,7 +90,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer">
-        <el-button @click="visible = false">取 消</el-button>
+        <el-button @click="visiblePersonal = false">取 消</el-button>
         <el-button type="primary" @click="onSubmitUser">确 定</el-button>
       </div>
     </el-dialog>
@@ -107,7 +107,7 @@ export default {
   },
   data () {
     return {
-      visible: false,
+      visiblePersonal: false,
       
       formInfo: {
         url: require('@/assets/images/head.png'),
@@ -136,13 +136,13 @@ export default {
   },
   methods: {
     edit(user) {
-      this.visible = true;
+      this.visiblePersonal = true;
       this.form = user;
     },
     onSubmitUser() {
       commonApi.updateUser(this.user).then((res) => {
         if (res.code === 200) {
-          this.visible = false;
+          this.visiblePersonal = false;
           this.$message.success('修改成功');
           // this.queryPage();
         } else {

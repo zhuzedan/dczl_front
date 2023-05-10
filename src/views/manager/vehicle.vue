@@ -1,6 +1,7 @@
 <template>
   <div class="user-container">
     <h1>车型管理</h1>
+    <el-button type="primary" @click="insert()" style="margin-bottom: 20px;">新建电车</el-button>
     <el-table :data="list">
       <el-table-column prop="bikeUrl" label="电动车" width="300">
         <template #default="{row}">
@@ -40,7 +41,29 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog
-      title="编辑"
+      title="新建电车"
+      width="500px"
+      :visible.sync="insertVisible">
+      <el-form ref="insertForm" :model="insertForm" label-width="100px">
+        <el-form-item label="名称：">
+          <el-input v-model="insertForm.bikeName" placeholder="请输入"/>
+        </el-form-item>
+        <el-form-item label="价格：">
+          <el-input v-model="insertForm.bikeCost" placeholder="请输入"/>
+        </el-form-item>
+        <el-form-item label="状态：">
+          <el-select v-model="insertForm.bikeStatus" placeholder="请选择">
+            <el-option v-for="(item,index) in vehicleOpts" :key="index" :label="item.label" :value="item.value"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="onInsertSubmit">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="编辑电车"
       width="500px"
       :visible.sync="visible">
       <el-form ref="form" :model="form" label-width="100px">
@@ -69,6 +92,8 @@ export default {
   data () {
     return {
       list: [],
+      insertVisible: false,
+      insertForm: {},
       pageInfo: {
         pageNo: 1,
         pageSize: 10,
@@ -111,6 +136,20 @@ export default {
     this.queryPage();
   },
   methods: {
+    insert() {
+      this.insertVisible = true;
+    },
+    onInsertSubmit() {
+      commonApi.insertBike(this.insertForm).then((res) => {
+        if (res.code === 200) {
+          this.insertVisible = false;
+          this.$message.success('新增成功');
+          this.queryPage();
+        } else {
+          this.$message.warning(res.message);
+        }
+      });
+    },
     queryPage() {
       commonApi.getBikes(this.pageInfo).then((res) => {
         if (res.code === 200) {

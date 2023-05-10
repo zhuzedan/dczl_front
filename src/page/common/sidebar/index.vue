@@ -7,7 +7,7 @@
           <h1>电车租赁后台管理系统</h1>
         </a>
         <SidebarItem v-for="route in routerManager" :key="route.path" :item="route" :base-path="route.path"/>
-        <div style="color: #fff;position: absolute;bottom: 0;" @click="handleLogout">退出登录</div>
+        <el-link style="color: #fff;position: absolute;bottom: 10px;left: 20px;" @click="handleLogout">退出登录</el-link>
       </el-menu>
     </el-scrollbar>
   </div>

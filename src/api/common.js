@@ -73,43 +73,12 @@ export default {
       }
     )
   },
+
   getBikes: (data) => { // 电车列表
     return request({
       url: '/getBikes',
       method: 'post',
       data
-    });
-    return new Promise((resolve) => {
-      const res = {
-        code: 200,
-        message: '',
-        data: {
-          total: 11,
-          list: [
-            {
-              bikeUrl: 'https://img.zcool.cn/community/0123aa57ac5a9f0000018c1b20920e.jpg@1280w_1l_2o_100sh.jpg',
-              bikeName: '英格威',
-              bikeStatus: '1',
-              bikeInsure: '40',
-              bikeCost: '120',
-  
-              tenancy: '2.0天',
-              kilometers: '无限制',
-            },
-            {
-              bikeUrl: 'https://img.zcool.cn/community/0123aa57ac5a9f0000018c1b20920e.jpg@1280w_1l_2o_100sh.jpg',
-              bikeName: '英格威',
-              bikeStatus: '1',
-              bikeInsure: '40',
-              bikeCost: '120',
-  
-              tenancy: '2.0天',
-              kilometers: '无限制',
-            }
-          ]
-        }
-      };
-      resolve(res);
     });
   },
   getStorePage: (data) => { // 门店列表
@@ -174,6 +143,13 @@ export default {
   getBikes: (data) => { // 电车列表
     return request({
       url: '/getBikes',
+      method: 'post',
+      data
+    });
+  },
+  insertBike: (data) => {  //新增电车
+    return request({
+      url: '/insertBike',
       method: 'post',
       data
     });
